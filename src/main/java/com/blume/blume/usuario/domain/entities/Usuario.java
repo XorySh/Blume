@@ -17,7 +17,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
-@Table(name = "user")
+@Table(name = "usuario")
 public class Usuario {
 
     @Id
@@ -28,6 +28,13 @@ public class Usuario {
     @Email(message = "El campo debe ser un email")
     @NotBlank(message = "El campo no debe estar en blanco")
     private String correo;
+
+    @NotBlank
+    @Size(min = 6, max = 20, message = "La contraseña debe de contener al menos 6 carácteres")
+    private String password;
+
+    @NotBlank
+    private String genero;
 
     @NotBlank(message = "El campo no debe estar en blanco")
     @Size(min = 4, max = 50, message = "El nombre debe de contener al menos 5 carácteres")

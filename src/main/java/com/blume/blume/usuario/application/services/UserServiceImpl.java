@@ -1,10 +1,10 @@
 package com.blume.blume.usuario.application.services;
 
-import java.util.List;
-import java.util.Optional;
-
 import com.blume.blume.usuario.domain.entities.Usuario;
 import com.blume.blume.usuario.domain.ports.UsuarioRepository;
+
+import java.util.List;
+import java.util.Optional;
 
 public record UserServiceImpl(UsuarioRepository usuarioRepository) implements UserService {
 
@@ -28,9 +28,6 @@ public record UserServiceImpl(UsuarioRepository usuarioRepository) implements Us
         return this.usuarioRepository.updateUser(usuario);
     }
 
-    @Override
-    public Boolean deactivateById(Long id) {
-        return this.usuarioRepository.deactiveUser(id);
-    }
+
     
 }

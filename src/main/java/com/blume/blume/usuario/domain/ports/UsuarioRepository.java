@@ -1,9 +1,9 @@
 package com.blume.blume.usuario.domain.ports;
 
+import com.blume.blume.usuario.domain.entities.Usuario;
+
 import java.util.List;
 import java.util.Optional;
-
-import com.blume.blume.usuario.domain.entities.Usuario;
 
 public interface UsuarioRepository {
 
@@ -11,6 +11,5 @@ public interface UsuarioRepository {
     Optional<Usuario> updateUser(Usuario usuario);
     Optional<Usuario> getUser(Long id);
     List<Usuario> getAllUsers();
-    Boolean deactiveUser(Long id);
 
 }
