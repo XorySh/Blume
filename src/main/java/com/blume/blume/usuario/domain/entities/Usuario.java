@@ -1,4 +1,4 @@
-package com.blume.blume.usuario.domain.model;
+package com.blume.blume.usuario.domain.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
