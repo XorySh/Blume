@@ -1,11 +1,21 @@
 package com.blume.blume.usuario.infrastructure.services;
 
+
+import com.blume.blume.auth.AuthenticationResponse;
 import com.blume.blume.common.exceptions.ResourceNotFoundException;
+import com.blume.blume.common.jwt.JwtService;
 import com.blume.blume.usuario.application.services.UserService;
 import com.blume.blume.usuario.domain.entities.Usuario;
+import com.blume.blume.usuario.domain.interfaces.Role;
+import com.blume.blume.usuario.infrastructure.adapters.UserCrudAdapter;
+import com.blume.blume.usuario.infrastructure.dto.LoginDTO;
 import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,15 +24,20 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class UserMapperService {
     private final UserService userService;
-    private static final ModelMapper modelMapper = new ModelMapper();
-
+    private final ModelMapper modelMapper = new ModelMapper();
     private static final String USER_NOT_FOUND = "No se pudo encontrar el usuario";
 
-    public UserMapperService(UserService userService) {
-        this.userService = userService;
-    }
+    private final AuthenticationManager authenticationManager;
+
+    private final UserCrudAdapter userCrudAdapter;
+
+    private final JwtService jwtService;
+
+    private final PasswordEncoder passwordEncoder;
+
 
     public UsuarioDTO getUserDTO(Long id) {
 
@@ -66,9 +81,12 @@ public class UserMapperService {
         }
     }
 
-    public UsuarioDTO createUserDTO(@Valid UsuarioDTO usuarioDTO) {
+    public AuthenticationResponse register(@Valid UsuarioDTO usuarioDTO) {
 
         try {
+
+            usuarioDTO.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
+
             // Creamos la entidad
             Usuario usuario = new Usuario();
             // Convertimos el DTO que recibimos a entidad para guardar sus propiedades
@@ -77,19 +95,40 @@ public class UserMapperService {
             // Asignamos el campo 'activo' y 'fechaRegistro'
             usuario.setActivo(true);
             usuario.setFechaRegistro(new Date());
+            usuario.setRol(Role.USER);
+
+
 
             // Creamos el usuario
             Usuario createdUser = this.userService.saveUser(usuario);
 
-            //Creamos un DTO al que añadiremos todas las propiedades del usuario creado.
-            UsuarioDTO createdUserDTO = new UsuarioDTO();
-            modelMapper.map(createdUser, createdUserDTO);
+            var jwtToken = jwtService.generateToken(createdUser);
 
-            //Devolvemos el DTO con todos los campos creados
-            return createdUserDTO;
+            return AuthenticationResponse.builder()
+                    .token(jwtToken)
+                    .build();
         } catch (Exception e) {
             throw new ResourceNotFoundException("No se pudo crear el usuario");
         }
+
+    }
+
+    public AuthenticationResponse login(LoginDTO request) {
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        var user = userCrudAdapter.findByEmail(request.getEmail())
+                .orElseThrow();
+
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
 
     }
 
@@ -148,6 +187,9 @@ public class UserMapperService {
         // Si no encuentra el usuario existente lanza una excepción.
         throw new ResourceNotFoundException(USER_NOT_FOUND);
     }
+
+
+
 
 
 

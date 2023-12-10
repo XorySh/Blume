@@ -17,9 +17,11 @@ import java.io.Serializable;
 public class UsuarioDTO implements Serializable {
 
     @Email
-    private String correo;
+    private String email;
     @NotBlank
     private String genero;
+    @NotBlank
+    private String password;
     @NotBlank
     private String nombre;
     @NotBlank

@@ -2,14 +2,13 @@ package com.blume.blume.usuario.infrastructure.controllers;
 
 import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
 import com.blume.blume.usuario.infrastructure.services.UserMapperService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/shop/users")
+@RequestMapping("/blume")
 @Slf4j
 public class UserController {
 
@@ -19,18 +18,11 @@ public class UserController {
         this.userMapperService = userMapperService;
     }
 
-    /**
-     * Guardar un Usuario
-     */
-    @PostMapping
-    public UsuarioDTO createUser(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-        return userMapperService.createUserDTO(usuarioDTO);
-    }
 
     /**
      * Obtener un Usuario por Id
      */
-    @GetMapping("/{userId}")
+    @GetMapping("/users/{userId}")
     public UsuarioDTO getUserById(@PathVariable Long userId){
         return userMapperService.getUserDTO(userId);
     }
@@ -38,7 +30,7 @@ public class UserController {
     /**
      * Obtener todos los usuarios
      */
-    @GetMapping
+    @GetMapping("/users/all")
     public List<UsuarioDTO> getAllUsers() {
         return userMapperService.getAllUsersDTO();
     }
@@ -46,7 +38,7 @@ public class UserController {
     /**
      * Desactivar un usuario
      */
-    @PutMapping("/delete/{userId}")
+    @PutMapping("/users/delete/{userId}")
     public Boolean deactivateUserById(@PathVariable Long userId) {
         return userMapperService.deactivateUser(userId);
     }
@@ -54,12 +46,14 @@ public class UserController {
     /**
      * Actualizar campos de un usuario
      */
-    @PatchMapping("/{userId}")
+    @PatchMapping("/users/{userId}")
     public UsuarioDTO updateUser(@PathVariable Long userId,
                                  @RequestBody UsuarioDTO usuarioDTO) {
 
         return userMapperService.updateUserDTO(userId, usuarioDTO);
     }
+
+
 
 
 }

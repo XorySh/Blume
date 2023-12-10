@@ -1,4 +1,4 @@
-package com.blume.blume.usuario.infrastructure.dto;
+package com.blume.blume.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
-    private String email;
-    private String password;
-
+public class AuthenticationResponse {
+    private String token;
 }

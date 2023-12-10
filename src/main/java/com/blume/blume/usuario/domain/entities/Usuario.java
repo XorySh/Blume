@@ -1,5 +1,6 @@
 package com.blume.blume.usuario.domain.entities;
 
+import com.blume.blume.usuario.domain.interfaces.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,8 +10,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -18,7 +24,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,10 +33,10 @@ public class Usuario {
 
     @Email(message = "El campo debe ser un email")
     @NotBlank(message = "El campo no debe estar en blanco")
-    private String correo;
+    private String email;
 
     @NotBlank
-    @Size(min = 6, max = 20, message = "La contraseña debe de contener al menos 6 carácteres")
+    @Size(min = 6,  message = "La contraseña debe de contener al menos 6 carácteres")
     private String password;
 
     @NotBlank
@@ -67,5 +73,39 @@ public class Usuario {
     @PastOrPresent(message = "La fecha de registro no puede ser superior a la de hoy")
     @Column(name = "fecha_registro")
     private Date fechaRegistro;
+
+    @Enumerated(EnumType.STRING)
+    private Role rol;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(rol.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 
 }
