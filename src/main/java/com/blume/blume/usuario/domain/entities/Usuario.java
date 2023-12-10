@@ -1,5 +1,6 @@
 package com.blume.blume.usuario.domain.entities;
 
+import com.blume.blume.jwt.token.RefreshToken;
 import com.blume.blume.usuario.domain.interfaces.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -76,6 +77,9 @@ public class Usuario implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role rol;
+
+    @OneToMany(mappedBy = "usuario")
+    private List<RefreshToken> tokens;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

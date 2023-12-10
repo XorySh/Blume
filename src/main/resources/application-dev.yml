@@ -16,5 +16,10 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-my:
-  JWT_SECRET: 927814c154bb1be99ddbc9382f72c96e8f0a2c95cb0b7d2c0f1e2263f8c13e2f
+application:
+  security:
+    jwt:
+      secret-key: 927814c154bb1be99ddbc9382f72c96e8f0a2c95cb0b7d2c0f1e2263f8c13e2f
+      expiration: 86400000 # a day
+      refresh-token:
+          expiration: 604800000 # 7 days
