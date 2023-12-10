@@ -1,4 +1,4 @@
-package com.blume.blume.common.jwt;
+package com.blume.blume.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

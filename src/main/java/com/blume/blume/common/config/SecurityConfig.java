@@ -1,6 +1,6 @@
 package com.blume.blume.common.config;
 
-import com.blume.blume.common.jwt.JwtAuthenticationFilter;
+import com.blume.blume.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

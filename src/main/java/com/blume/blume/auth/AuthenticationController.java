@@ -1,7 +1,7 @@
 package com.blume.blume.auth;
 
 import com.blume.blume.usuario.infrastructure.dto.LoginDTO;
-import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
+import com.blume.blume.usuario.infrastructure.dto.RegisterDTO;
 import com.blume.blume.usuario.infrastructure.services.UserMapperService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
-            @RequestBody UsuarioDTO request
+            @RequestBody RegisterDTO request
     ) {
         return ResponseEntity.ok(service.register(request));
     }

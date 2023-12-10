@@ -14,12 +14,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class UsuarioDTO implements Serializable {
+public class RegisterDTO implements Serializable {
 
     @Email
     private String email;
     @NotBlank
     private String genero;
+    @NotBlank
+    private String password;
     @NotBlank
     private String nombre;
     @NotBlank

@@ -1,4 +1,4 @@
-package com.blume.blume.common.jwt;
+package com.blume.blume.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

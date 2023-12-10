@@ -3,12 +3,13 @@ package com.blume.blume.usuario.infrastructure.services;
 
 import com.blume.blume.auth.AuthenticationResponse;
 import com.blume.blume.common.exceptions.ResourceNotFoundException;
-import com.blume.blume.common.jwt.JwtService;
+import com.blume.blume.jwt.JwtService;
 import com.blume.blume.usuario.application.services.UserService;
 import com.blume.blume.usuario.domain.entities.Usuario;
 import com.blume.blume.usuario.domain.interfaces.Role;
 import com.blume.blume.usuario.infrastructure.adapters.UserCrudAdapter;
 import com.blume.blume.usuario.infrastructure.dto.LoginDTO;
+import com.blume.blume.usuario.infrastructure.dto.RegisterDTO;
 import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -81,7 +82,7 @@ public class UserMapperService {
         }
     }
 
-    public AuthenticationResponse register(@Valid UsuarioDTO usuarioDTO) {
+    public AuthenticationResponse register(@Valid RegisterDTO usuarioDTO) {
 
         try {
 
