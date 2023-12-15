@@ -3,6 +3,7 @@ package com.blume.blume.usuario.infrastructure.adapters;
 import com.blume.blume.common.exceptions.ResourceNotFoundException;
 import com.blume.blume.usuario.domain.entities.Usuario;
 import com.blume.blume.usuario.domain.ports.UsuarioRepository;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +12,10 @@ import java.util.Optional;
 
 @Repository
 @Slf4j
+@AllArgsConstructor
 public class UserAdapter implements UsuarioRepository {
 
     private final UserCrudAdapter userCrudAdapter;
-
-    public UserAdapter(UserCrudAdapter userCrudAdapter) {
-        this.userCrudAdapter = userCrudAdapter;
-    }
 
     @Override
     public Usuario createUser(Usuario usuario) {

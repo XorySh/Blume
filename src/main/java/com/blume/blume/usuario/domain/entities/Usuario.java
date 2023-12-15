@@ -40,7 +40,7 @@ public class Usuario implements UserDetails {
     @Size(min = 6,  message = "La contraseña debe de contener al menos 6 carácteres")
     private String password;
 
-    @NotBlank
+    @NotBlank(message = "El campo no debe estar en blanco")
     private String genero;
 
     @NotBlank(message = "El campo no debe estar en blanco")
@@ -110,6 +110,8 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 
 
 }

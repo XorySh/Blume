@@ -1,5 +1,8 @@
 package com.blume.blume.common.config;
 
+import com.blume.blume.producto.application.services.ProductService;
+import com.blume.blume.producto.application.services.ProductServiceImpl;
+import com.blume.blume.producto.domain.ports.ProductRepository;
 import com.blume.blume.usuario.application.services.UserService;
 import com.blume.blume.usuario.application.services.UserServiceImpl;
 import com.blume.blume.usuario.domain.ports.UsuarioRepository;
@@ -26,6 +29,11 @@ public class ApplicationConfig {
     @Bean
     public UserService userBeanService(final UsuarioRepository usuarioRepository){
         return new UserServiceImpl(usuarioRepository);
+    }
+
+    @Bean
+    public ProductService productBeanService(final ProductRepository productRepository){
+        return new ProductServiceImpl(productRepository);
     }
 
     @Bean

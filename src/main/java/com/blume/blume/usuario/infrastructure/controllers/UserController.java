@@ -2,6 +2,7 @@ package com.blume.blume.usuario.infrastructure.controllers;
 
 import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
 import com.blume.blume.usuario.infrastructure.services.UserMapperService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,13 +11,10 @@ import java.util.List;
 @RestController
 @RequestMapping("/blume")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserMapperService userMapperService;
-
-    public UserController(UserMapperService userMapperService) {
-        this.userMapperService = userMapperService;
-    }
 
 
     /**
