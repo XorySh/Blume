@@ -2,6 +2,7 @@ package com.blume.blume.auth.controllers;
 
 import com.blume.blume.auth.responses.AuthenticationResponse;
 import com.blume.blume.auth.services.AuthenticationService;
+import com.blume.blume.usuario.domain.interfaces.Role;
 import com.blume.blume.usuario.infrastructure.dto.LoginDTO;
 import com.blume.blume.usuario.infrastructure.dto.RegisterDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,12 +22,13 @@ import java.io.IOException;
 public class AuthenticationController {
 
     private final AuthenticationService service;
+    private static final Role role = Role.USER;
 
     @PostMapping("/register")
     public ResponseEntity<AuthenticationResponse> register(
             @RequestBody RegisterDTO request
     ) {
-        return ResponseEntity.ok(service.register(request));
+        return ResponseEntity.ok(service.register(request, role));
     }
 
     @PostMapping("/login")

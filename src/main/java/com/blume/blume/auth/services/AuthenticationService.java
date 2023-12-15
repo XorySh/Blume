@@ -44,8 +44,12 @@ public class AuthenticationService {
 
     private final TokenRepository tokenRepository;
 
+    private static final String USER_NOT_CREATED = "No se pudo crear el usuario";
 
-    public AuthenticationResponse register(@Valid RegisterDTO usuarioDTO) {
+
+
+
+    public AuthenticationResponse register(@Valid RegisterDTO usuarioDTO, Role role) {
 
         try {
 
@@ -59,10 +63,7 @@ public class AuthenticationService {
             // Asignamos el campo 'activo' y 'fechaRegistro'
             usuario.setActivo(true);
             usuario.setFechaRegistro(new Date());
-            usuario.setRol(Role.USER);
-
-
-
+            usuario.setRol(role);
             // Creamos el usuario
             Usuario createdUser = this.userService.saveUser(usuario);
 
@@ -75,10 +76,11 @@ public class AuthenticationService {
                     .refreshToken(refreshToken)
                     .build();
         } catch (Exception e) {
-            throw new ResourceNotFoundException("No se pudo crear el usuario");
+            throw new ResourceNotFoundException(USER_NOT_CREATED);
         }
 
     }
+
 
     public AuthenticationResponse login(LoginDTO request) {
         authenticationManager.authenticate(

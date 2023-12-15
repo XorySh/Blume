@@ -20,7 +20,7 @@ public class ProductController {
     /**
      * Crear un producto
      */
-    @PostMapping("/products/create")
+    @PostMapping("/management/products/create")
     public ProductDTO createProduct(@RequestBody ProductDTO productDTO){
         return productMapperService.saveProductDTO(productDTO);
     }
@@ -44,7 +44,7 @@ public class ProductController {
     /**
      * Eliminar un producto
      */
-    @DeleteMapping("/products/delete/{id}")
+    @DeleteMapping("/management/products/delete/{id}")
     public Boolean deleteProductById(@PathVariable Long id){
         return productMapperService.deleteProduct(id);
     }
@@ -52,7 +52,7 @@ public class ProductController {
     /**
      * Actualizar campos de un producto
      */
-    @PatchMapping("products/{id}")
+    @PatchMapping("/management/products/{id}")
     public ProductDTO updateProduct(@RequestBody ProductDTO productDTO){
         return productMapperService.updateProductDTO(productDTO);
     }

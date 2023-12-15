@@ -40,6 +40,4 @@ public class RegisterDTO implements Serializable {
     private String direccion;
 
 
-
-
 }
