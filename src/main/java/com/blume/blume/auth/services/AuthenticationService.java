@@ -10,6 +10,7 @@ import com.blume.blume.usuario.application.services.UserService;
 import com.blume.blume.usuario.domain.entities.Usuario;
 import com.blume.blume.usuario.domain.interfaces.Role;
 import com.blume.blume.usuario.infrastructure.adapters.UserCrudAdapter;
+import com.blume.blume.usuario.infrastructure.dto.ChangePasswordDTO;
 import com.blume.blume.usuario.infrastructure.dto.LoginDTO;
 import com.blume.blume.usuario.infrastructure.dto.RegisterDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Date;
 
 @Service
@@ -154,6 +156,30 @@ public class AuthenticationService {
                 new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
+    }
+
+
+    public void changePassword(ChangePasswordDTO request, Principal connectedUser) {
+
+        // Obtenemos el principal del usuario autenticado
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) connectedUser;
+        Usuario user = (Usuario) authenticationToken.getPrincipal();
+
+        // Verificamos si la contraseña actual es correcta
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())){
+            throw new IllegalStateException("Wrong password");
+        }
+        // Verificamos si las dos nuevas contraseñas son iguales
+        if (!request.getNewPassword().equals(request.getConfirmationPassword())) {
+            throw new IllegalStateException("Password are not the same");
+        }
+
+        // Actualizamos la contraseña
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        // Guardamos la nueva contraseña
+        this.userService.saveUser(user);
+
     }
 
 }

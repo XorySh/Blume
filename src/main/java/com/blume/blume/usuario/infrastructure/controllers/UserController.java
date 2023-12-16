@@ -1,11 +1,15 @@
 package com.blume.blume.usuario.infrastructure.controllers;
 
+import com.blume.blume.auth.services.AuthenticationService;
+import com.blume.blume.usuario.infrastructure.dto.ChangePasswordDTO;
 import com.blume.blume.usuario.infrastructure.dto.UsuarioDTO;
 import com.blume.blume.usuario.infrastructure.services.UserMapperService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -15,6 +19,7 @@ import java.util.List;
 public class UserController {
 
     private final UserMapperService userMapperService;
+    private final AuthenticationService service;
 
 
     /**
@@ -51,7 +56,17 @@ public class UserController {
         return userMapperService.updateUserDTO(userId, usuarioDTO);
     }
 
-
+    /**
+     * Cambiar contraseña
+     */
+    @PatchMapping("/users/change_password")
+    public ResponseEntity<ChangePasswordDTO> changePassword(
+            @RequestBody ChangePasswordDTO request,
+            Principal connectedUser
+    ){
+        service.changePassword(request, connectedUser);
+        return ResponseEntity.ok().build();
+    }
 
 
 }
